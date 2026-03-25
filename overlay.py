@@ -2,7 +2,7 @@ import tkinter as tk
 import keyboard
 import ctypes
 from pynput import mouse
-from pynput import keyboard as kb 
+from pynput import keyboard as kb
 import time
 
 root = tk.Tk()
@@ -14,9 +14,9 @@ root.configure(bg="black")
 BG_DARK = "#0d1117"
 BG_PANEL = "#161b22"
 BG_KEY = "#21262d"
-BG_KEY_ACTIVE = "#58a6ff"
+BG_KEY_ACTIVE = "#c8a96e"
 BORDER = "#30363d"
-BORDER_ACTIVE = "#79c0ff"
+BORDER_ACTIVE = "#ffffff"
 TEXT = "#c9d1d9"
 ACCENT = "#f0883e"
 
@@ -162,6 +162,7 @@ KEYS = [
 
 mouse_state = {'left': False, 'middle': False, 'right': False}
 
+
 click_times = []
 cps_text = canvas.create_text(520, 300, text="CPS: 0",
                               fill="#8b949e", font=("Segoe UI", 11, "bold"))
@@ -215,24 +216,24 @@ def update_keys():
             canvas.itemconfig(key_obj['text'], fill=TEXT)
 
     if mouse_state['left']:
-        canvas.itemconfig(lmb, fill=ACCENT, outline="#ffab70", width=3)
-        canvas.itemconfig(leds[0], fill=ACCENT)
+        canvas.itemconfig(lmb, fill="#ff0000", outline="#000000", width=3)
+        canvas.itemconfig(leds[0], fill="#bd2e2e")
     else:
-        canvas.itemconfig(lmb, fill="#30363d", outline="#484f58", width=2)
+        canvas.itemconfig(lmb, fill="#30363d", outline="#000000", width=2)
         canvas.itemconfig(leds[0], fill="#21262d")
 
     if mouse_state['middle']:
-        canvas.itemconfig(wheel, fill="#58a6ff", outline=BORDER_ACTIVE, width=3)
-        canvas.itemconfig(leds[1], fill="#58a6ff")
+        canvas.itemconfig(wheel, fill="#00f899", outline=BORDER_ACTIVE, width=3)
+        canvas.itemconfig(leds[1], fill="#00ffaa")
     else:
         canvas.itemconfig(wheel, fill="#21262d", outline="#484f58", width=2)
         canvas.itemconfig(leds[1], fill="#21262d")
 
     if mouse_state['right']:
-        canvas.itemconfig(rmb, fill="#3fb950", outline="#7ee787", width=3)
+        canvas.itemconfig(rmb, fill="#9b59b6", outline="#000000", width=3)
         canvas.itemconfig(leds[2], fill="#3fb950")
     else:
-        canvas.itemconfig(rmb, fill="#30363d", outline="#484f58", width=2)
+        canvas.itemconfig(rmb, fill="#30363d", outline="#000000", width=2)
         canvas.itemconfig(leds[2], fill="#21262d")
 
     now = time.time()
