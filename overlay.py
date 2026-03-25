@@ -2,8 +2,8 @@ import tkinter as tk
 import keyboard
 import ctypes
 from pynput import mouse
-from pynput import keyboard as kb   # ← ДОБАВИЛ
-import time                         # ← ДОБАВИЛ
+from pynput import keyboard as kb 
+import time
 
 root = tk.Tk()
 root.overrideredirect(True)
@@ -162,7 +162,6 @@ KEYS = [
 
 mouse_state = {'left': False, 'middle': False, 'right': False}
 
-# CPS
 click_times = []
 cps_text = canvas.create_text(520, 300, text="CPS: 0",
                               fill="#8b949e", font=("Segoe UI", 11, "bold"))
@@ -180,7 +179,6 @@ def on_click(x, y, button, pressed):
 listener = mouse.Listener(on_click=on_click)
 listener.start()
 
-# ДОБАВКА (не ломает keyboard)
 pressed_keys = set()
 
 def on_press(key):
@@ -237,7 +235,6 @@ def update_keys():
         canvas.itemconfig(rmb, fill="#30363d", outline="#484f58", width=2)
         canvas.itemconfig(leds[2], fill="#21262d")
 
-    # CPS update
     now = time.time()
     click_times[:] = [t for t in click_times if now - t <= 1]
     canvas.itemconfig(cps_text, text=f"CPS: {len(click_times)}")
