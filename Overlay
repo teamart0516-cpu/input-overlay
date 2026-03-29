@@ -9,200 +9,143 @@ root = tk.Tk()
 root.overrideredirect(True)
 root.attributes("-topmost", True)
 root.attributes("-alpha", 0.92)
-root.configure(bg="black")
+root.configure(bg="#000000")
 
-BG_DARK = "#0d1117"
-BG_PANEL = "#161b22"
+
 BG_KEY = "#21262d"
-BG_KEY_ACTIVE = "#c8a96e"
+BG_KEY_ACTIVE = "#e63939"
 BORDER = "#30363d"
-BORDER_ACTIVE = "#ffffff"
+BORDER_ACTIVE = "#f0883e"
 TEXT = "#c9d1d9"
-ACCENT = "#f0883e"
 
-WINDOW_WIDTH = 650
-WINDOW_HEIGHT = 340
+WINDOW_WIDTH = 520
+WINDOW_HEIGHT = 255
 
-canvas = tk.Canvas(root, bg=BG_DARK, highlightthickness=0, 
+canvas = tk.Canvas(root, bg="#000000", highlightthickness=0, 
                    width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
 canvas.pack()
 
-canvas.create_rectangle(10, 10, WINDOW_WIDTH-10, WINDOW_HEIGHT-10, 
-                       outline=BORDER, width=2, fill=BG_PANEL)
-
 def create_key(x, y, width, height, text, font_size=14):
     skew = 5
-    
-    points = [
-        x + skew, y,
-        x + width - skew, y,
-        x + width, y + height,
-        x, y + height
-    ]
-    
-    shadow_pts = [
-        points[0] + 3, points[1] + 3,
-        points[2] + 3, points[3] + 3,
-        points[4] + 3, points[5] + 3,
-        points[6] + 3, points[7] + 3
-    ]
-    
-    shadow = canvas.create_polygon(shadow_pts, fill="#000000", smooth=False)
+    points = [x + skew, y, x + width - skew, y, x + width, y + height, x, y + height]
+    canvas.create_polygon([p + 3 for p in points], fill="#000000", smooth=False)
     bg = canvas.create_polygon(points, fill=BG_KEY, outline=BORDER, width=2, smooth=False)
     text_obj = canvas.create_text(x + width/2, y + height/2, text=text, 
                                   fill=TEXT, font=("Segoe UI", font_size, "bold"))
-    
-    return {'bg': bg, 'text': text_obj, 'shadow': shadow}
+    return {'bg': bg, 'text': text_obj}
 
-W, H = 55, 45
-S = 12
-start_x, start_y = 50, 60
+W, H = 52, 42
+S = 10
+start_x, start_y = 35, 45
 
 key_q = create_key(start_x, start_y, W, H, "Q", 13)
 key_w = create_key(start_x + W + S, start_y, W, H, "W", 13)
 key_e = create_key(start_x + (W + S)*2, start_y, W, H, "E", 13)
 
-shift_w = W + 40
-key_shift = create_key(start_x - 20, start_y + H + S + 5, shift_w, H, "SHIFT", 11)
-key_a = create_key(start_x + shift_w + S - 20, start_y + H + S + 5, W, H, "A", 13)
-key_s = create_key(start_x + shift_w + S + W + S - 20, start_y + H + S + 5, W, H, "S", 13)
-key_d = create_key(start_x + shift_w + S + (W + S)*2 - 20, start_y + H + S + 5, W, H, "D", 13)
+shift_w = W + 38
+key_shift = create_key(start_x - 18, start_y + H + S + 4, shift_w, H, "SHIFT", 10)
+key_a = create_key(start_x + shift_w + S - 18, start_y + H + S + 4, W, H, "A", 13)
+key_s = create_key(start_x + shift_w + S + W + S - 18, start_y + H + S + 4, W, H, "S", 13)
+key_d = create_key(start_x + shift_w + S + (W + S)*2 - 18, start_y + H + S + 4, W, H, "D", 13)
 
-ctrl_w = W + 20
-space_w = W * 3 + S * 2 - 20
-key_ctrl = create_key(start_x - 20, start_y + (H + S + 5)*2, ctrl_w, H, "CTRL", 10)
-key_space = create_key(start_x + ctrl_w + S - 20, start_y + (H + S + 5)*2, space_w, H, "SPACE", 11)
+ctrl_w = W + 18
+space_w = W * 3 + S * 2 - 18
+key_ctrl = create_key(start_x - 18, start_y + (H + S + 4)*2, ctrl_w, H, "CTRL", 10)
+key_space = create_key(start_x + ctrl_w + S - 18, start_y + (H + S + 4)*2, space_w, H, "SPACE", 11)
 
-mouse_x = 430
-mouse_y = 50
-mouse_w = 180
-mouse_h = 240
-
-canvas.create_rectangle(mouse_x, mouse_y, mouse_x + mouse_w, mouse_y + mouse_h,
-                       fill=BG_PANEL, outline=BORDER, width=2)
-
-canvas.create_text(mouse_x + mouse_w//2, mouse_y + 20, text="MOUSE",
-                  fill="#8b949e", font=("Segoe UI", 11, "bold"))
+mouse_x = 355
+mouse_y = 45
+mouse_w = 155
+mouse_h = 195
 
 cx = mouse_x + mouse_w // 2
-cy = mouse_y + 120
-body_w, body_h = 90, 140
+cy = mouse_y + 105
+body_w, body_h = 82, 125
+top_flat = cy - body_h//2 + 25
 
-top_flat = cy - body_h//2 + 30
 canvas.create_arc(cx - body_w//2, cy - body_h//2, cx + body_w//2, top_flat,
                  start=0, extent=180, fill="#2d333b", outline=BORDER, width=2)
-
-canvas.create_arc(cx - body_w//2, top_flat - 20, cx + body_w//2, cy + body_h//2,
+canvas.create_arc(cx - body_w//2, top_flat - 18, cx + body_w//2, cy + body_h//2,
                  start=180, extent=180, fill="#2d333b", outline=BORDER, width=2)
-
-canvas.create_rectangle(cx - body_w//2, top_flat - 25, cx + body_w//2, top_flat,
+canvas.create_rectangle(cx - body_w//2, top_flat - 22, cx + body_w//2, top_flat,
                        fill="#2d333b", outline="")
 
 lmb_w = body_w//2 - 4
-lmb_h = 50
-lmb_x = cx - body_w//2 + 2
-lmb_y = cy - body_h//2 + 10
+lmb_h = 46
+lmb_x = cx - body_w//2 + 3
+lmb_y = cy - body_h//2 + 12
 
-lmb = canvas.create_polygon(
-    lmb_x + 8, lmb_y,
-    lmb_x + lmb_w, lmb_y,
-    lmb_x + lmb_w, lmb_y + lmb_h,
-    lmb_x, lmb_y + lmb_h - 15,
-    fill="#30363d", outline="#484f58", width=2
-)
+lmb = canvas.create_polygon(lmb_x + 8, lmb_y, lmb_x + lmb_w, lmb_y,
+                            lmb_x + lmb_w, lmb_y + lmb_h, lmb_x, lmb_y + lmb_h - 15,
+                            fill="#30363d", outline="#484f58", width=2)
 
-rmb_x = cx + 2
-rmb = canvas.create_polygon(
-    rmb_x, lmb_y,
-    rmb_x + lmb_w - 8, lmb_y,
-    rmb_x + lmb_w, lmb_y + lmb_h - 15,
-    rmb_x, lmb_y + lmb_h,
-    fill="#30363d", outline="#484f58", width=2
-)
+rmb_x = cx + 3
+rmb = canvas.create_polygon(rmb_x, lmb_y, rmb_x + lmb_w - 8, lmb_y,
+                            rmb_x + lmb_w, lmb_y + lmb_h - 15, rmb_x, lmb_y + lmb_h,
+                            fill="#30363d", outline="#484f58", width=2)
 
-wheel_w = 14
-wheel_h = 40
+wheel_w = 13
+wheel_h = 36
 wheel_x = cx - wheel_w//2
 wheel_y = lmb_y + 5
 
 wheel = canvas.create_rectangle(wheel_x, wheel_y, wheel_x + wheel_w, wheel_y + wheel_h,
                                fill="#21262d", outline="#484f58", width=2)
 
+scroll_text = canvas.create_text(cx, wheel_y - 25, text="", 
+                                 fill="#39d353", font=("Segoe UI", 16, "bold"))
+
 for i in range(4):
-    y_pos = wheel_y + 8 + i * 9
-    canvas.create_line(wheel_x + 2, y_pos, wheel_x + wheel_w - 2, y_pos, 
-                      fill="#484f58", width=1)
+    y_pos = wheel_y + 7 + i * 8
+    canvas.create_line(wheel_x + 2, y_pos, wheel_x + wheel_w - 2, y_pos, fill="#484f58", width=1)
 
-logo_y = cy + 25
-canvas.create_oval(cx - 5, logo_y - 5, cx + 5, logo_y + 5, 
-                  fill="#21262d", outline=ACCENT, width=2)
+label_y = lmb_y + lmb_h + 8
+canvas.create_text(lmb_x + lmb_w//2, label_y, text="L", fill="#6e7681", font=("Segoe UI", 9, "bold"))
+canvas.create_text(cx, wheel_y + wheel_h + 8, text="M", fill="#6e7681", font=("Segoe UI", 8))
+canvas.create_text(rmb_x + lmb_w//2, label_y, text="R", fill="#6e7681", font=("Segoe UI", 9, "bold"))
 
-label_y = lmb_y + lmb_h + 12
-canvas.create_text(lmb_x + lmb_w//2, label_y, text="L", fill="#6e7681", font=("Segoe UI", 10, "bold"))
-canvas.create_text(cx, wheel_y + wheel_h + 12, text="M", fill="#6e7681", font=("Segoe UI", 9))
-canvas.create_text(rmb_x + lmb_w//2, label_y, text="R", fill="#6e7681", font=("Segoe UI", 10, "bold"))
+cps_text = canvas.create_text(mouse_x + mouse_w - 35, mouse_y + mouse_h - 22, 
+                              text="CPS: 0", fill="#8b949e", font=("Segoe UI", 10, "bold"))
 
-led_y = mouse_y + mouse_h - 25
-leds = []
-colors = [ACCENT, "#58a6ff", "#3fb950"]
-labels = ["L", "M", "R"]
-
-for i in range(3):
-    lx = mouse_x + 45 + i * 45
-    led = canvas.create_oval(lx - 5, led_y - 5, lx + 5, led_y + 5, 
-                            fill="#21262d", outline=colors[i], width=2)
-    canvas.create_text(lx, led_y + 12, text=labels[i], fill="#6e7681", font=("Segoe UI", 8))
-    leds.append(led)
-
-KEYS = [
-    ("q", key_q), ("w", key_w), ("e", key_e),
-    ("a", key_a), ("s", key_s), ("d", key_d),
-    ("shift", key_shift), ("ctrl", key_ctrl), ("space", key_space)
-]
+KEYS = [("q", key_q), ("w", key_w), ("e", key_e), ("a", key_a), ("s", key_s), ("d", key_d),
+        ("shift", key_shift), ("ctrl", key_ctrl), ("space", key_space)]
 
 mouse_state = {'left': False, 'middle': False, 'right': False}
-
-
 click_times = []
-cps_text = canvas.create_text(520, 300, text="CPS: 0",
-                              fill="#8b949e", font=("Segoe UI", 11, "bold"))
+last_scroll_time = 0
+scroll_direction = 0   # 1 = вверх, -1 = вниз
 
 def on_click(x, y, button, pressed):
     if button == mouse.Button.left:
         mouse_state['left'] = pressed
-        if pressed:
-            click_times.append(time.time())
-    elif button == mouse.Button.right:
-        mouse_state['right'] = pressed
+        if pressed: click_times.append(time.time())
     elif button == mouse.Button.middle:
         mouse_state['middle'] = pressed
+    elif button == mouse.Button.right:
+        mouse_state['right'] = pressed
 
-listener = mouse.Listener(on_click=on_click)
-listener.start()
+def on_scroll(x, y, dx, dy):
+    global last_scroll_time, scroll_direction
+    last_scroll_time = time.time()
+    scroll_direction = 1 if dy > 0 else -1
+
+mouse.Listener(on_click=on_click, on_scroll=on_scroll).start()
 
 pressed_keys = set()
 
 def on_press(key):
-    try:
-        pressed_keys.add(key.char.lower())
+    try: pressed_keys.add(key.char.lower())
     except:
-        if key == kb.Key.space:
-            pressed_keys.add("space")
-        elif key == kb.Key.shift:
-            pressed_keys.add("shift")
-        elif key == kb.Key.ctrl_l or key == kb.Key.ctrl_r:
-            pressed_keys.add("ctrl")
+        if key == kb.Key.space: pressed_keys.add("space")
+        elif key == kb.Key.shift: pressed_keys.add("shift")
+        elif key in (kb.Key.ctrl_l, kb.Key.ctrl_r): pressed_keys.add("ctrl")
 
 def on_release(key):
-    try:
-        pressed_keys.discard(key.char.lower())
+    try: pressed_keys.discard(key.char.lower())
     except:
-        if key == kb.Key.space:
-            pressed_keys.discard("space")
-        elif key == kb.Key.shift:
-            pressed_keys.discard("shift")
-        elif key == kb.Key.ctrl_l or key == kb.Key.ctrl_r:
-            pressed_keys.discard("ctrl")
+        if key == kb.Key.space: pressed_keys.discard("space")
+        elif key == kb.Key.shift: pressed_keys.discard("shift")
+        elif key in (kb.Key.ctrl_l, kb.Key.ctrl_r): pressed_keys.discard("ctrl")
 
 kb.Listener(on_press=on_press, on_release=on_release).start()
 
@@ -216,25 +159,25 @@ def update_keys():
             canvas.itemconfig(key_obj['text'], fill=TEXT)
 
     if mouse_state['left']:
-        canvas.itemconfig(lmb, fill="#ff0000", outline="#000000", width=3)
-        canvas.itemconfig(leds[0], fill="#bd2e2e")
+        canvas.itemconfig(lmb, fill="#ff7b72", outline=BORDER_ACTIVE, width=3)
     else:
-        canvas.itemconfig(lmb, fill="#30363d", outline="#000000", width=2)
-        canvas.itemconfig(leds[0], fill="#21262d")
+        canvas.itemconfig(lmb, fill="#30363d", outline="#484f58", width=2)
 
     if mouse_state['middle']:
-        canvas.itemconfig(wheel, fill="#00f899", outline=BORDER_ACTIVE, width=3)
-        canvas.itemconfig(leds[1], fill="#00ffaa")
+        canvas.itemconfig(wheel, fill="#39d353", outline=BORDER_ACTIVE, width=3)
     else:
         canvas.itemconfig(wheel, fill="#21262d", outline="#484f58", width=2)
-        canvas.itemconfig(leds[1], fill="#21262d")
 
     if mouse_state['right']:
-        canvas.itemconfig(rmb, fill="#9b59b6", outline="#000000", width=3)
-        canvas.itemconfig(leds[2], fill="#3fb950")
+        canvas.itemconfig(rmb, fill="#a5a5ff", outline=BORDER_ACTIVE, width=3)
     else:
-        canvas.itemconfig(rmb, fill="#30363d", outline="#000000", width=2)
-        canvas.itemconfig(leds[2], fill="#21262d")
+        canvas.itemconfig(rmb, fill="#30363d", outline="#484f58", width=2)
+
+    if time.time() - last_scroll_time < 0.8:
+        arrow = "↑" if scroll_direction > 0 else "↓"
+        canvas.itemconfig(scroll_text, text=arrow)
+    else:
+        canvas.itemconfig(scroll_text, text="")
 
     now = time.time()
     click_times[:] = [t for t in click_times if now - t <= 1]
@@ -243,15 +186,12 @@ def update_keys():
     root.after(16, update_keys)
 
 def make_clickthrough():
-    GWL_EXSTYLE = -20
-    WS_EX_LAYERED = 0x80000
-    WS_EX_TRANSPARENT = 0x20
     hwnd = ctypes.windll.user32.FindWindowW(None, "overlay")
     if not hwnd:
         root.after(200, make_clickthrough)
         return
-    style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
-    ctypes.windll.user32.SetWindowLongW(hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED | WS_EX_TRANSPARENT)
+    style = ctypes.windll.user32.GetWindowLongW(hwnd, -20)
+    ctypes.windll.user32.SetWindowLongW(hwnd, -20, style | 0x80000 | 0x20)
 
 update_keys()
 root.title("overlay")
