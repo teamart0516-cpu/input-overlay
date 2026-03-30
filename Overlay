@@ -11,9 +11,9 @@ root.attributes("-topmost", True)
 root.attributes("-alpha", 0.92)
 root.configure(bg="#000000")
 
-
+# Цвета
 BG_KEY = "#21262d"
-BG_KEY_ACTIVE = "#e63939"
+BG_KEY_ACTIVE = "#e63939"      # тёмно-ярко-красный, как просил
 BORDER = "#30363d"
 BORDER_ACTIVE = "#f0883e"
 TEXT = "#c9d1d9"
@@ -53,6 +53,7 @@ space_w = W * 3 + S * 2 - 18
 key_ctrl = create_key(start_x - 18, start_y + (H + S + 4)*2, ctrl_w, H, "CTRL", 10)
 key_space = create_key(start_x + ctrl_w + S - 18, start_y + (H + S + 4)*2, space_w, H, "SPACE", 11)
 
+# Мышка
 mouse_x = 355
 mouse_y = 45
 mouse_w = 155
@@ -92,6 +93,7 @@ wheel_y = lmb_y + 5
 wheel = canvas.create_rectangle(wheel_x, wheel_y, wheel_x + wheel_w, wheel_y + wheel_h,
                                fill="#21262d", outline="#484f58", width=2)
 
+# Индикатор прокрутки
 scroll_text = canvas.create_text(cx, wheel_y - 25, text="", 
                                  fill="#39d353", font=("Segoe UI", 16, "bold"))
 
@@ -150,6 +152,7 @@ def on_release(key):
 kb.Listener(on_press=on_press, on_release=on_release).start()
 
 def update_keys():
+    # Клавиши (красные при нажатии)
     for key_name, key_obj in KEYS:
         if keyboard.is_pressed(key_name) or key_name in pressed_keys:
             canvas.itemconfig(key_obj['bg'], fill=BG_KEY_ACTIVE, outline=BORDER_ACTIVE, width=3)
@@ -158,6 +161,7 @@ def update_keys():
             canvas.itemconfig(key_obj['bg'], fill=BG_KEY, outline=BORDER, width=2)
             canvas.itemconfig(key_obj['text'], fill=TEXT)
 
+    # Кнопки мыши
     if mouse_state['left']:
         canvas.itemconfig(lmb, fill="#ff7b72", outline=BORDER_ACTIVE, width=3)
     else:
@@ -173,12 +177,14 @@ def update_keys():
     else:
         canvas.itemconfig(rmb, fill="#30363d", outline="#484f58", width=2)
 
+    # Прокрутка колёсика
     if time.time() - last_scroll_time < 0.8:
         arrow = "↑" if scroll_direction > 0 else "↓"
         canvas.itemconfig(scroll_text, text=arrow)
     else:
         canvas.itemconfig(scroll_text, text="")
 
+    # CPS
     now = time.time()
     click_times[:] = [t for t in click_times if now - t <= 1]
     canvas.itemconfig(cps_text, text=f"CPS: {len(click_times)}")
